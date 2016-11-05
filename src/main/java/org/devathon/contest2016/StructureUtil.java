@@ -36,7 +36,7 @@ public class StructureUtil {
         MinecraftServer server = world.getMinecraftServer();
         DefinedStructureManager structureManager = world.y();
         DefinedStructure structure = structureManager.a(server, new MinecraftKey(name));
-        structure.a(world, startPos, size, false, Blocks.dj); // false -> do not includ entities, dj -> stucture void
+        structure.a(world, startPos, size, true, Blocks.dj); // false -> do not includ entities, dj -> stucture void
         structure.a(author); // set author
         return structureManager.d(server, new MinecraftKey(name));
     }
@@ -57,7 +57,7 @@ public class StructureUtil {
         if (structure == null) {
             return false;
         } else {
-            DefinedStructureInfo structureInfo = (new DefinedStructureInfo()).a(EnumBlockMirror.NONE).a(EnumBlockRotation.NONE).a(true).a((ChunkCoordIntPair) null).a((Block) null).b(false);
+            DefinedStructureInfo structureInfo = (new DefinedStructureInfo()).a(EnumBlockMirror.NONE).a(EnumBlockRotation.NONE).a(false).a((ChunkCoordIntPair) null).a((Block) null).b(false);
             structure.a(world, originPos, structureInfo);
             return true;
         }
