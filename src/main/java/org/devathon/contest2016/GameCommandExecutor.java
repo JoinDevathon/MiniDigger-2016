@@ -7,12 +7,15 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,7 +24,7 @@ import static net.md_5.bungee.api.ChatColor.*;
 /**
  * Executor for the /game command
  */
-public class GameCommandExecutor implements CommandExecutor {
+public class GameCommandExecutor implements TabCompleter, CommandExecutor {
     
     private GameHandler handler;
     
@@ -113,5 +116,42 @@ public class GameCommandExecutor implements CommandExecutor {
         }
         
         return true;
+    }
+    
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+        if (command.getName().equalsIgnoreCase("game")) {
+            List<String> result = new ArrayList<>();
+            if (args.length == 0) {
+                result.add("start");
+                result.add("abort");
+                return result;
+            } else if (args.length == 1) {
+                result.add("start");
+                result.add("abort");
+                return complete(result, args[0]);
+            } else if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("start")) {
+                    for (Difficulty difficulty : Difficulty.values()) {
+                        result.add(difficulty.name());
+                    }
+                    
+                    return complete(result, args[1]);
+                }
+            }
+        }
+        return null;
+    }
+    
+    private List<String> complete(List<String> list, String prefix) {
+        final List<String> result = new ArrayList<>();
+        
+        for (String s : list) {
+            if (s.toLowerCase().startsWith(prefix.toLowerCase())) {
+                result.add(s);
+            }
+        }
+        
+        return result;
     }
 }
