@@ -34,7 +34,11 @@ public class DevathonPlugin extends JavaPlugin {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("test")) {
             Player player = (Player) sender;
-            StructureUtil.save(player.getLocation(), new BlockPosition(5, 5, 5), "TEST", "MiniDigger");
+            if (args[0].equalsIgnoreCase("save")) {
+                StructureUtil.save(player.getLocation(), new BlockPosition(5, 5, 5), "TEST", "MiniDigger");
+            } else {
+                StructureUtil.load(player.getLocation(), "TEST");
+            }
             return true;
         }
         return false;
