@@ -18,6 +18,7 @@ public class DevathonPlugin extends JavaPlugin {
     public void onEnable() {
         gameHandler = new GameHandler(this);
         getCommand("game").setExecutor(new GameCommandExecutor(gameHandler));
+        getServer().getPluginManager().registerEvents(new GameListener(gameHandler), this);
     }
     
     @Override

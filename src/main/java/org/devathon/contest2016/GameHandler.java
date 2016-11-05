@@ -59,7 +59,7 @@ public class GameHandler implements Listener {
             player.spigot().sendMessage(plugin.getPrefix().append("You can only be in one game at a time!").color(RED).create());
         }
         
-        MachineGame game = new MachineGame(this, difficulty, player);
+        MachineGame game = new MachineGame(this, difficulty, player, player.getLocation()); //TODO change origin location
         games.add(game);
         game.start();
         return game;
@@ -104,6 +104,7 @@ public class GameHandler implements Listener {
             player.spigot().sendMessage(plugin.getPrefix().append("You are not in a game!").color(RED).create());
         } else {
             game.get().abort();
+            games.remove(game.get());
         }
     }
 }
