@@ -1,6 +1,8 @@
 package org.devathon.contest2016;
 
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,6 +130,19 @@ public class MachineGame {
     }
     
     /**
+     * Handles the wrench action to change the direction of the flow
+     *
+     * @param x the x coordinate
+     * @param z the z coordinate
+     */
+    public void wrench(int x, int z) {
+        Direction direction = board.getDirection(x, z);
+        Direction next = direction.getNext();
+        board.setDirections(x, z, next);
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("(" + x + "," + z + ") set to ").color(YELLOW).append(next.name()).color(GOLD).create());
+    }
+    
+    /**
      * Converts local space x z coordinates to a world space location
      *
      * @param x the local space x coordinate
@@ -145,6 +160,7 @@ public class MachineGame {
      * @return the local space point2i
      */
     public Point2I locationToXZ(Location location) {
+        //TODO fix this, this allows placement outside of the area
         int x = Math.max(location.getBlockX(), origin.getBlockX()) - Math.min(location.getBlockX(), origin.getBlockX());
         int z = Math.max(location.getBlockZ(), origin.getBlockZ()) - Math.min(location.getBlockZ(), origin.getBlockZ());
         

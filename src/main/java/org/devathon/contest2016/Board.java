@@ -1,14 +1,12 @@
 package org.devathon.contest2016;
 
-import org.bukkit.block.BlockFace;
-
 /**
  * The board for the game
  */
 public class Board {
     
     private TileType[][] board;
-    private BlockFace[][] directions;
+    private Direction[][] directions;
     
     /**
      * Initialises this board
@@ -18,12 +16,12 @@ public class Board {
      */
     public Board(int xSize, int zSize) {
         board = new TileType[xSize][zSize];
-        directions = new BlockFace[xSize][zSize];
+        directions = new Direction[xSize][zSize];
         
         for (int x = 0; x < xSize; x++) {
             for (int z = 0; z < zSize; z++) {
                 board[x][z] = TileType.AIR;
-                directions[x][z] = BlockFace.UP;
+                directions[x][z] = Direction.UNDEFINED;
             }
         }
     }
@@ -57,7 +55,7 @@ public class Board {
      * @param z         the z coordinate
      * @param direction the direction the flow should be flowing at (x,z)
      */
-    public void setDirections(int x, int z, BlockFace direction) {
+    public void setDirections(int x, int z, Direction direction) {
         this.directions[x][z] = direction;
     }
     
@@ -68,7 +66,7 @@ public class Board {
      * @param z the z coordinate
      * @return the direction the flow should be flowing at (x,z)
      */
-    public BlockFace getDirection(int x, int z) {
+    public Direction getDirection(int x, int z) {
         return directions[x][z];
     }
 }
