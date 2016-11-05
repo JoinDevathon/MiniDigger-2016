@@ -39,7 +39,6 @@ public class LevelHandler {
     public Level loadLevel(Location signLoc) {
         Sign levelSign = (Sign) signLoc.getBlock().getState();
         String name = levelSign.getLine(1);
-        String frameName = levelSign.getLine(3);
         Difficulty difficulty = Difficulty.valueOf(levelSign.getLine(2));
         BlockState blockstate = levelSign;
         List<LineType> types = new ArrayList<>();
@@ -53,7 +52,7 @@ public class LevelHandler {
             }
         }
         
-        Level level = new Level(name, difficulty, levelSign.getLocation().add(1, 0, 0), name, frameName, types);
+        Level level = new Level(name, difficulty, levelSign.getLocation().add(1, 0, 0), name, types);
         levels.add(level);
         return level;
     }

@@ -15,15 +15,13 @@ public class Level {
     private Difficulty difficulty;
     private Location loc;
     private String schematic;
-    private String frameSchematic;
     private List<LineType> types;
     
-    public Level(String name, Difficulty difficulty, Location loc, String schematic, String frameSchematic, List<LineType> types) {
+    public Level(String name, Difficulty difficulty, Location loc, String schematic, List<LineType> types) {
         this.name = name;
         this.difficulty = difficulty;
         this.loc = loc;
         this.schematic = schematic;
-        this.frameSchematic = frameSchematic;
         this.types = types;
     }
     
@@ -57,14 +55,6 @@ public class Level {
     
     public void setSchematic(String schematic) {
         this.schematic = schematic;
-    }
-    
-    public String getFrameSchematic() {
-        return frameSchematic;
-    }
-    
-    public void setFrameSchematic(String frameSchematic) {
-        this.frameSchematic = frameSchematic;
     }
     
     public List<LineType> getTypes() {
