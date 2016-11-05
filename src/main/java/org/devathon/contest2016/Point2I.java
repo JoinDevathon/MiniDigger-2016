@@ -32,4 +32,22 @@ public class Point2I {
     public int getZ() {
         return z;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Point2I point2I = (Point2I) o;
+        
+        if (x != point2I.x) return false;
+        return z == point2I.z;
+    }
+    
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + z;
+        return result;
+    }
 }

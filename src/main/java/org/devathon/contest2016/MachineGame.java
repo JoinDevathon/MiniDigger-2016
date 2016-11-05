@@ -6,11 +6,14 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Location;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import static net.md_5.bungee.api.ChatColor.*;
 
@@ -22,9 +25,12 @@ public class MachineGame {
     private Difficulty difficulty;
     private Player player;
     private Board board;
-    private Location origin;
     private GameHandler handler;
     private List<BlockState> blocksToReset;
+    // TODO load map stuff from somewhere
+    private Location origin;
+    private Map<TileType, Point2I> startPoints;
+    private Map<TileType, Point2I> endPoints;
     
     /**
      * Inits this game
@@ -37,9 +43,11 @@ public class MachineGame {
         this.handler = handler;
         this.difficulty = difficulty;
         this.player = player;
-        this.board = new Board(difficulty.getXSize(), difficulty.getZSize());
+        this.board = new Board(difficulty.getXSize(), difficulty.getZSize(), this);
         this.blocksToReset = new ArrayList<>();
         this.origin = origin;
+        this.startPoints = new HashMap<>();
+        this.endPoints = new HashMap<>();
     }
     
     /**
@@ -52,6 +60,7 @@ public class MachineGame {
     public void setTile(int x, int z, TileType type) {
         System.out.printf("set " + x + ":" + z + " to " + type.name());
         board.setTile(x, z, type);
+        checkWin();
     }
     
     /**
@@ -116,9 +125,15 @@ public class MachineGame {
      * Resets all blocks
      */
     public void resetBlocks() {
-        Collections.reverse(blocksToReset);
-        blocksToReset.forEach(state -> state.update(true));
-        blocksToReset.clear();
+        // run one tick later so that last block still can get cleared out
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Collections.reverse(blocksToReset);
+                blocksToReset.forEach(state -> state.update(true));
+                blocksToReset.clear();
+            }
+        }.runTaskLater(handler.getPlugin(), 1);
     }
     
     /**
@@ -140,6 +155,19 @@ public class MachineGame {
         Direction next = direction.getNext();
         board.setDirections(x, z, next);
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new ComponentBuilder("(" + x + "," + z + ") set to ").color(YELLOW).append(next.name()).color(GOLD).create());
+        checkWin();
+    }
+    
+    /**
+     * Checks if the player has won
+     */
+    public void checkWin() {
+        startPoints.put(TileType.ELECTIRCITY, new Point2I(0, 0));
+        endPoints.put(TileType.ELECTIRCITY, new Point2I(4, 4));
+        
+        if (board.checkWin(startPoints, endPoints)) {
+            win();
+        }
     }
     
     /**
