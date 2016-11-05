@@ -1,5 +1,6 @@
 package org.devathon.contest2016;
 
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -34,8 +35,16 @@ public class GameCommandExecutor implements CommandExecutor {
             return false;
         }
         
-        Player player = (Player) sender;
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(ChatColor.RED + "Sadly, this game is not designed to be played form the command line...");
+            return false;
+        }
         
+        Player player = (Player) sender;
+      
+        /*
+         * /game
+         */
         if (args.length == 0) {
             Optional<MachineGame> game = handler.getGame(player);
             if (game.isPresent()) {
@@ -57,6 +66,9 @@ public class GameCommandExecutor implements CommandExecutor {
         }
         
         switch (args[0]) {
+            /*
+             * /game start
+             */
             case "start":
                 if (args.length == 1) {
                     player.spigot().sendMessage(handler.getPlugin().getPrefix().append("You need to enter a difficulty!").color(RED).create());
@@ -86,6 +98,15 @@ public class GameCommandExecutor implements CommandExecutor {
                 
                 handler.startGame(difficulty, player);
                 break;
+            /*
+             * /game abort
+             */
+            case "abort":
+                handler.abortGame(player);
+                break;
+            /*
+             * /game <unknown>
+             */
             default:
                 player.spigot().sendMessage(handler.getPlugin().getPrefix().append("Unknown sub command!").color(RED).create());
                 break;
