@@ -6,8 +6,6 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static net.md_5.bungee.api.ChatColor.*;
@@ -19,7 +17,7 @@ public class DevathonPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         gameHandler = new GameHandler(this);
-        getCommand("game").setExecutor(gameHandler);
+        getCommand("game").setExecutor(new GameCommandExecutor(gameHandler));
     }
     
     @Override
