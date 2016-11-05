@@ -110,7 +110,7 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                 
                 List<LineType> types = new ArrayList<>();
                 types.add(new LineType(TileType.ELECTIRCITY, new Point2I(0, 0), new Point2I(4, 4)));
-                Level level = new Level("DefaultLevel", difficulty, player.getLocation(), "DefaultLevel", "", types);
+                Level level = new Level("DefaultLevel", difficulty, player.getLocation(), "DefaultLevel", types);
                 handler.startGame(player, level);
                 break;
             /*
