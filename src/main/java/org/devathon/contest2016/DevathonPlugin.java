@@ -5,7 +5,11 @@ import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_10_R1.BlockPosition;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import static net.md_5.bungee.api.ChatColor.*;
@@ -24,6 +28,16 @@ public class DevathonPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         gameHandler.shutdown();
+    }
+    
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (command.getName().equalsIgnoreCase("test")) {
+            Player player = (Player) sender;
+            StructureUtil.save(player.getLocation(), new BlockPosition(5, 5, 5), "TEST", "MiniDigger");
+            return true;
+        }
+        return false;
     }
     
     /**
