@@ -107,4 +107,13 @@ public class GameHandler implements Listener {
             games.remove(game.get());
         }
     }
+    
+    /**
+     * Called to remove a game from the list, probably because the player won
+     *
+     * @param game the game that should be removed
+     */
+    public void remove(MachineGame game) {
+        games.remove(game);
+    }
 }

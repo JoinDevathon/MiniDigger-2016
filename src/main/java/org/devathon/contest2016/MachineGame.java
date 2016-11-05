@@ -119,6 +119,7 @@ public class MachineGame {
     public void win() {
         resetBlocks();
         player.spigot().sendMessage(handler.getPlugin().getPrefix().append("You won").color(ChatColor.GREEN).create());
+        handler.remove(this);
     }
     
     /**
