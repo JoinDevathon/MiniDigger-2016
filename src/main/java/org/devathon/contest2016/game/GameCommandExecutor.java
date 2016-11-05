@@ -7,7 +7,12 @@ import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 
+import org.devathon.contest2016.level.Level;
+import org.devathon.contest2016.level.LevelHandler;
+import org.devathon.contest2016.level.LineType;
 import org.devathon.contest2016.stuff.Difficulty;
+import org.devathon.contest2016.stuff.Point2I;
+import org.devathon.contest2016.stuff.TileType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +34,11 @@ import static net.md_5.bungee.api.ChatColor.*;
 public class GameCommandExecutor implements TabCompleter, CommandExecutor {
     
     private GameHandler handler;
+    private LevelHandler levelHandler;
     
-    public GameCommandExecutor(GameHandler handler) {
+    public GameCommandExecutor(GameHandler handler, LevelHandler levelHandler) {
         this.handler = handler;
+        this.levelHandler = levelHandler;
     }
     
     @Override
@@ -51,7 +58,7 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
          * /game
          */
         if (args.length == 0) {
-            Optional<MachineGame> game = handler.getGame(player);
+            Optional<Game> game = handler.getGame(player);
             if (game.isPresent()) {
                 game.get().sendGameInfo();
             } else {
@@ -101,13 +108,27 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                     return true;
                 }
                 
-                handler.startGame(difficulty, player);
+                List<LineType> types = new ArrayList<>();
+                types.add(new LineType(TileType.ELECTIRCITY, new Point2I(0, 0), new Point2I(4, 4)));
+                Level level = new Level("DefaultLevel", difficulty, player.getLocation(), "DefaultLevel", "", types);
+                handler.startGame(player, level);
                 break;
             /*
              * /game abort
              */
             case "abort":
                 handler.abortGame(player);
+                break;
+            /*
+             * /game level
+             */
+            case "level":
+                Optional<Level> lvl = levelHandler.getLevel(args[1]);
+                if (!lvl.isPresent()) {
+                    player.spigot().sendMessage(handler.getPlugin().getPrefix().append("Unknown level ").color(RED).append(args[1]).color(DARK_RED).append("!").color(RED).create());
+                    return true;
+                }
+                handler.startGame(player, lvl.get());
                 break;
             /*
              * /game <unknown>
@@ -139,6 +160,8 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                     }
                     
                     return complete(result, args[1]);
+                } else if (args[0].equalsIgnoreCase("level")) {
+                    //TODO tab completer for level
                 }
             }
         }

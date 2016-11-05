@@ -4,6 +4,8 @@ import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 
+import org.devathon.contest2016.level.Level;
+import org.devathon.contest2016.level.LineType;
 import org.devathon.contest2016.stuff.Difficulty;
 import org.devathon.contest2016.stuff.Direction;
 import org.devathon.contest2016.stuff.Point2I;
@@ -25,34 +27,32 @@ import static net.md_5.bungee.api.ChatColor.*;
 /**
  * The game class, where everything comes together
  */
-public class MachineGame {
+public class Game {
     
     private Difficulty difficulty;
     private Player player;
     private Board board;
     private GameHandler handler;
     private List<BlockState> blocksToReset;
-    // TODO load map stuff from somewhere
+    private Level level;
     private Location origin;
-    private Map<TileType, Point2I> startPoints;
-    private Map<TileType, Point2I> endPoints;
     
     /**
      * Inits this game
      *
-     * @param handler    the gamehandler that handles this game
-     * @param difficulty the difficulty of this game
-     * @param player     the player that is playing this game
+     * @param handler the gamehandler that handles this game
+     * @param player  the player that is playing this game
+     * @param origin  the origin location of the level
+     * @param level   the level to play
      */
-    public MachineGame(GameHandler handler, Difficulty difficulty, Player player, Location origin) {
+    public Game(GameHandler handler, Player player, Location origin, Level level) {
         this.handler = handler;
-        this.difficulty = difficulty;
+        this.difficulty = level.getDifficulty();
         this.player = player;
         this.board = new Board(difficulty.getXSize(), difficulty.getZSize(), this);
         this.blocksToReset = new ArrayList<>();
         this.origin = origin;
-        this.startPoints = new HashMap<>();
-        this.endPoints = new HashMap<>();
+        this.level = level;
     }
     
     /**
@@ -168,8 +168,13 @@ public class MachineGame {
      * Checks if the player has won
      */
     public void checkWin() {
-        startPoints.put(TileType.ELECTIRCITY, new Point2I(0, 0));
-        endPoints.put(TileType.ELECTIRCITY, new Point2I(4, 4));
+        Map<TileType, Point2I> startPoints = new HashMap<>();
+        Map<TileType, Point2I> endPoints = new HashMap<>();
+        
+        for (LineType lineType : level.getTypes()) {
+            startPoints.put(lineType.getType(), lineType.getStart());
+            endPoints.put(lineType.getType(), lineType.getStop());
+        }
         
         if (board.checkWin(startPoints, endPoints)) {
             win();
@@ -199,5 +204,12 @@ public class MachineGame {
         int z = Math.max(location.getBlockZ(), origin.getBlockZ()) - Math.min(location.getBlockZ(), origin.getBlockZ());
         
         return new Point2I(x, z);
+    }
+    
+    /**
+     * @return the level that this game is taking part in
+     */
+    public Level getLevel() {
+        return level;
     }
 }

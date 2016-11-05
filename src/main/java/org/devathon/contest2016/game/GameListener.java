@@ -27,7 +27,7 @@ public class GameListener implements Listener {
     
     @EventHandler
     public void onTilePlace(BlockPlaceEvent event) {
-        Optional<MachineGame> game = gameHandler.getGame(event.getPlayer());
+        Optional<Game> game = gameHandler.getGame(event.getPlayer());
         if (game.isPresent()) {
             if (isLocationOnBoard(event.getBlockPlaced().getLocation(), game.get())) {
                 TileType type = TileType.from(event.getItemInHand());
@@ -46,7 +46,7 @@ public class GameListener implements Listener {
     
     @EventHandler
     public void onTileBreak(BlockBreakEvent event) {
-        Optional<MachineGame> game = gameHandler.getGame(event.getPlayer());
+        Optional<Game> game = gameHandler.getGame(event.getPlayer());
         if (game.isPresent()) {
             if (isLocationOnBoard(event.getBlock().getLocation(), game.get())) {
                 TileType type = TileType.from(event.getBlock().getType(), event.getBlock().getData());
@@ -70,7 +70,7 @@ public class GameListener implements Listener {
         }
     
         System.out.println("event");
-        Optional<MachineGame> game = gameHandler.getGame(event.getPlayer());
+        Optional<Game> game = gameHandler.getGame(event.getPlayer());
         if (game.isPresent()) {
             if (isLocationOnBoard(event.getClickedBlock().getLocation(), game.get())) {
                 if (event.getPlayer().getItemInHand().equals(gameHandler.getWrenchItem())) {
@@ -85,12 +85,12 @@ public class GameListener implements Listener {
     
     @EventHandler
     public void noDrop(PlayerDropItemEvent event) {
-        Optional<MachineGame> game = gameHandler.getGame(event.getPlayer());
+        Optional<Game> game = gameHandler.getGame(event.getPlayer());
         // no drops
         game.ifPresent(machineGame -> event.setCancelled(true));
     }
     
-    private boolean isLocationOnBoard(Location loc, MachineGame game) {
+    private boolean isLocationOnBoard(Location loc, Game game) {
         Point2I point2I = game.locationToXZ(loc);
         return point2I.getX() < game.getDifficulty().getXSize() && point2I.getZ() < game.getDifficulty().getZSize() && point2I.getX() >= 0 && point2I.getZ() >= 0;
     }

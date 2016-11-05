@@ -1,7 +1,7 @@
 package org.devathon.contest2016.game;
 
 import org.devathon.contest2016.DevathonPlugin;
-import org.devathon.contest2016.stuff.Difficulty;
+import org.devathon.contest2016.level.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import static net.md_5.bungee.api.ChatColor.*;
  */
 public class GameHandler implements Listener {
     
-    private List<MachineGame> games = new ArrayList<>();
+    private List<Game> games = new ArrayList<>();
     private DevathonPlugin plugin;
     private ItemStack wrenchItem;
     
@@ -46,23 +46,23 @@ public class GameHandler implements Listener {
      * @param player the player which game should be searched for
      * @return the game, if present
      */
-    public Optional<MachineGame> getGame(Player player) {
+    public Optional<Game> getGame(Player player) {
         return games.stream().filter(game -> game.getPlayer().getUniqueId().equals(player.getUniqueId())).findAny();
     }
     
     /**
      * Starts a new game
      *
-     * @param difficulty the difficulty of the game
-     * @param player     the player that wants to play
+     * @param player the player that wants to play
+     * @param level  the level to play
      * @return the new game
      */
-    public MachineGame startGame(Difficulty difficulty, Player player) {
+    public Game startGame(Player player, Level level) {
         if (getGame(player).isPresent()) {
             player.spigot().sendMessage(plugin.getPrefix().append("You can only be in one game at a time!").color(RED).create());
         }
         
-        MachineGame game = new MachineGame(this, difficulty, player, player.getLocation()); //TODO change origin location
+        Game game = new Game(this, player, player.getLocation(), level); //TODO change origin location
         games.add(game);
         game.start();
         return game;
@@ -72,7 +72,7 @@ public class GameHandler implements Listener {
      * Shuts down this gamehandler, aborting all running games
      */
     public void shutdown() {
-        games.forEach(MachineGame::abort);
+        games.forEach(Game::abort);
         games.clear();
     }
     
@@ -102,7 +102,7 @@ public class GameHandler implements Listener {
      * @param player the player who wants to abort his game
      */
     public void abortGame(Player player) {
-        Optional<MachineGame> game = getGame(player);
+        Optional<Game> game = getGame(player);
         if (!game.isPresent()) {
             player.spigot().sendMessage(plugin.getPrefix().append("You are not in a game!").color(RED).create());
         } else {
@@ -116,7 +116,7 @@ public class GameHandler implements Listener {
      *
      * @param game the game that should be removed
      */
-    public void remove(MachineGame game) {
+    public void remove(Game game) {
         games.remove(game);
     }
 }

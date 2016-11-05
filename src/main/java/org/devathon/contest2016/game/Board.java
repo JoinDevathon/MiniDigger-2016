@@ -19,7 +19,7 @@ public class Board {
     
     private TileType[][] board;
     private Direction[][] directions;
-    private MachineGame game;
+    private Game game;
     
     /**
      * Initialises this board
@@ -28,7 +28,7 @@ public class Board {
      * @param zSize the number of tiles in z direction
      * @param game  the game this board belongs to
      */
-    public Board(int xSize, int zSize, MachineGame game) {
+    public Board(int xSize, int zSize, Game game) {
         board = new TileType[xSize][zSize];
         directions = new Direction[xSize][zSize];
         this.game = game;

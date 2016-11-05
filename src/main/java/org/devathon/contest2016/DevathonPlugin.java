@@ -28,9 +28,12 @@ public class DevathonPlugin extends JavaPlugin {
     public void onEnable() {
         structureHandler = new StructureHandler(this);
         structureHandler.load();
+        
         gameHandler = new GameHandler(this);
         getCommand("game").setExecutor(new GameCommandExecutor(gameHandler));
         getServer().getPluginManager().registerEvents(new GameListener(gameHandler), this);
+        
+        getServer().getPluginManager().registerEvents(new GetRidOfStupidShit(), this);
     }
     
     @Override
