@@ -1,8 +1,13 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.game;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+
+import org.devathon.contest2016.stuff.Difficulty;
+import org.devathon.contest2016.stuff.Direction;
+import org.devathon.contest2016.stuff.Point2I;
+import org.devathon.contest2016.stuff.TileType;
 
 import java.util.ArrayList;
 import java.util.Collections;

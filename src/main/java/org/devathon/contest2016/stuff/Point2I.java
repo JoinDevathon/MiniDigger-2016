@@ -1,4 +1,4 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.stuff;
 
 /**
  * Simple point, containing 2 ints

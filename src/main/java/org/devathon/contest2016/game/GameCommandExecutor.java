@@ -1,4 +1,4 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.game;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -6,6 +6,8 @@ import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+
+import org.devathon.contest2016.stuff.Difficulty;
 
 import java.util.ArrayList;
 import java.util.List;

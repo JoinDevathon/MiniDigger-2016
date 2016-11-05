@@ -1,4 +1,7 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.game;
+
+import org.devathon.contest2016.DevathonPlugin;
+import org.devathon.contest2016.stuff.Difficulty;
 
 import java.util.ArrayList;
 import java.util.List;

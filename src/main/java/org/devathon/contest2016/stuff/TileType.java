@@ -1,4 +1,4 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.stuff;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

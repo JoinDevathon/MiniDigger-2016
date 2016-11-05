@@ -7,6 +7,11 @@ import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.server.v1_10_R1.BlockPosition;
 
+import org.devathon.contest2016.game.GameCommandExecutor;
+import org.devathon.contest2016.game.GameHandler;
+import org.devathon.contest2016.game.GameListener;
+import org.devathon.contest2016.util.StructureUtil;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,9 +22,12 @@ import static net.md_5.bungee.api.ChatColor.*;
 public class DevathonPlugin extends JavaPlugin {
     
     private GameHandler gameHandler;
+    private StructureHandler structureHandler;
     
     @Override
     public void onEnable() {
+        structureHandler = new StructureHandler(this);
+        structureHandler.load();
         gameHandler = new GameHandler(this);
         getCommand("game").setExecutor(new GameCommandExecutor(gameHandler));
         getServer().getPluginManager().registerEvents(new GameListener(gameHandler), this);

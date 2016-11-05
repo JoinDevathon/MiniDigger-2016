@@ -1,4 +1,4 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.stuff;
 
 /**
  * Created by Martin on 05.11.2016.

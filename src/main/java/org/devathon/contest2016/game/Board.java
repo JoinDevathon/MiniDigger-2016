@@ -1,4 +1,8 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.game;
+
+import org.devathon.contest2016.stuff.Direction;
+import org.devathon.contest2016.stuff.Point2I;
+import org.devathon.contest2016.stuff.TileType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
