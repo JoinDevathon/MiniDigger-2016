@@ -86,6 +86,7 @@ public class Board {
     }
     
     public boolean checkWin(Map<TileType, Point2I> startPoints, Map<TileType, Point2I> endPoints) {
+        boolean won = true;
         for (TileType key : startPoints.keySet()) {
             Point2I start = startPoints.get(key);
             Point2I stop = endPoints.get(key);
@@ -104,15 +105,16 @@ public class Board {
             for (Point2I point : visited) {
                 Location loc = game.xzToLocation(point.getX(), point.getZ());
                 loc.setY(loc.getY() + 1);
+                loc.add(0.5, 0.5, 0.5);
                 loc.getWorld().spigot().playEffect(loc, Effect.HEART);//TODO do effect based on TileType
             }
             
             if (!result) {
-                return false;
+                won = false;
             }
         }
         
-        return true;
+        return won;
     }
     
     public boolean checkFlow(TileType tile, int startX, int startZ, int stopX, int stopZ, List<Point2I> visited) {

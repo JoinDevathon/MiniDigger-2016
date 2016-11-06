@@ -56,7 +56,10 @@ public class Game {
         this.origin = level.getLoc().clone();
         this.level = level;
         
-        level.load(origin.clone().subtract(1, 1, 1), this);
+        // handle offset
+        if (!level.load(origin.clone().subtract(1, 1, 1), this)) {
+            origin.add(0, 1, 0);
+        }
     }
     
     /**

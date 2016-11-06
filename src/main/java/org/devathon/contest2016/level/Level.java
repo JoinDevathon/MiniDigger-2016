@@ -77,7 +77,7 @@ public class Level {
         this.types = types;
     }
     
-    public void load(Location origin, Game game) {
+    public boolean load(Location origin, Game game) {
         // load in the schematic
         boolean loaded = false;
         if (!isLoaded()) {
@@ -104,5 +104,7 @@ public class Level {
             stop.getBlock().setType(type.getType().getMaterial());
             stop.getBlock().setData(type.getType().getData());
         }
+        
+        return loaded;
     }
 }
