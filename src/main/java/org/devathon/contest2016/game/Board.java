@@ -210,7 +210,12 @@ public class Board {
         
         // only one possible route found == just use that
         if (possibleRoutes.size() == 1) {
-            Point2I pos = possibleRoutes.values().iterator().next();
+            Direction dir = possibleRoutes.keySet().iterator().next();
+            Point2I pos = possibleRoutes.get(dir);
+            // save direction, we may need it
+            setDirections(pos.getX(), pos.getZ(), dir);
+            
+            // go deeper
             visited.add(pos);
             return checkFlow(tile, pos.getX(), pos.getZ(), stopX, stopZ, visited);
         }

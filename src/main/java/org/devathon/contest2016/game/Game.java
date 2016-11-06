@@ -158,6 +158,8 @@ public class Game {
      * Resets all blocks
      */
     public void resetBlocks() {
+        //TODO also replace loaded level
+        
         // run one tick later so that last block still can get cleared out
         BukkitRunnable runnable = new BukkitRunnable() {
             @Override
