@@ -109,9 +109,15 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                 }
                 
                 List<LineType> types = new ArrayList<>();
+                //TODO random points?
                 types.add(new LineType(TileType.RED, new Point2I(0, 0), new Point2I(4, 4)));
-                Level level = new Level("DefaultLevel", difficulty, player.getLocation(), "DefaultLevel", types);
-                handler.startGame(player, level);
+                Optional<Level> level = levelHandler.getLevel(args[1], player.getLocation().clone());
+                if (!level.isPresent()) {
+                    player.spigot().sendMessage(handler.getPlugin().getPrefix().append("Unknown level ").color(RED).append(args[1]).color(DARK_RED).append("!").color(RED).create());
+                    return true;
+                }
+                level.get().setTypes(types);
+                handler.startGame(player, level.get());
                 break;
             /*
              * /game abort
@@ -148,10 +154,12 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
             if (args.length == 0) {
                 result.add("start");
                 result.add("abort");
+                result.add("level");
                 return result;
             } else if (args.length == 1) {
                 result.add("start");
                 result.add("abort");
+                result.add("level");
                 return complete(result, args[0]);
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("start")) {
@@ -161,7 +169,9 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                     
                     return complete(result, args[1]);
                 } else if (args[0].equalsIgnoreCase("level")) {
-                    //TODO tab completer for level
+                    result.add("Level1");
+                    result.add("Level2");
+                    return complete(result, args[1]);
                 }
             }
         }

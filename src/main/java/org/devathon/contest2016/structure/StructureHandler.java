@@ -14,7 +14,7 @@ import org.bukkit.Bukkit;
  */
 public class StructureHandler {
     
-    private static final String[] structures = {"DefaultLevel", "TestLevel", "Level1", "Level2"};
+    private static final String[] structures = {"EASY", "NORMAL", "HARD", "Level1", "Level2"};
     
     private DevathonPlugin plugin;
     
