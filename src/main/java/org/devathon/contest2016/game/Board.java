@@ -116,7 +116,6 @@ public class Board {
     }
     
     public boolean checkFlow(TileType tile, int startX, int startZ, int stopX, int stopZ, List<Point2I> visited) {
-        System.out.println("visited " + visited.size());
         //check if we need the direction
         Map<Direction, Point2I> possibleRoutes = new HashMap<>();
         for (Direction dir : Direction.values()) {

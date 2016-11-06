@@ -68,8 +68,7 @@ public class GameListener implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
-    
-        System.out.println("event");
+        
         Optional<Game> game = gameHandler.getGame(event.getPlayer());
         if (game.isPresent()) {
             if (isLocationOnBoard(event.getClickedBlock().getLocation(), game.get())) {

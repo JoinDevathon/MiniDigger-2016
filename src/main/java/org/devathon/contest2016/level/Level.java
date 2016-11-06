@@ -83,8 +83,6 @@ public class Level {
             Location stop = new Location(origin.getWorld(), origin.getBlockX() + type.getStop().getX(), origin.getBlockY(), origin.getBlockZ() + type.getStop().getZ());
             game.setTile(stop, type.getType(), stop.getBlock().getState());
             stop.getBlock().setType(type.getType().getMaterial());
-            
-            System.out.println(start);
         }
     }
 }
