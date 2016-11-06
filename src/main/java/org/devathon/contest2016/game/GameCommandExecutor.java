@@ -17,6 +17,7 @@ import org.devathon.contest2016.stuff.TileType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -108,15 +109,12 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                     return true;
                 }
                 
-                List<LineType> types = new ArrayList<>();
-                //TODO random points?
-                types.add(new LineType(TileType.RED, new Point2I(0, 0), new Point2I(4, 4)));
                 Optional<Level> level = levelHandler.getLevel(args[1], player.getLocation().clone());
                 if (!level.isPresent()) {
                     player.spigot().sendMessage(handler.getPlugin().getPrefix().append("Unknown level ").color(RED).append(args[1]).color(DARK_RED).append("!").color(RED).create());
                     return true;
                 }
-                level.get().setTypes(types);
+                level.get().setTypes(generateRandomType(difficulty));
                 handler.startGame(player, level.get());
                 break;
             /*
@@ -188,5 +186,45 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
         }
         
         return result;
+    }
+    
+    private List<LineType> generateRandomType(Difficulty difficulty) {
+        List<LineType> types = new ArrayList<>();
+        List<Point2I> choosen = new ArrayList<>();
+        
+        switch (difficulty) {
+            case HARD:
+                types.add(generateType(TileType.ORANGE, difficulty, choosen));
+                types.add(generateType(TileType.PINK, difficulty, choosen));
+                types.add(generateType(TileType.GRAY, difficulty, choosen));
+                types.add(generateType(TileType.YELLOW, difficulty, choosen));
+            case NORMAL:
+                types.add(generateType(TileType.BLUE, difficulty, choosen));
+                types.add(generateType(TileType.GREEN, difficulty, choosen));
+                types.add(generateType(TileType.CYAN, difficulty, choosen));
+            case EASY:
+                types.add(generateType(TileType.RED, difficulty, choosen));
+                types.add(generateType(TileType.BROWN, difficulty, choosen));
+        }
+        
+        return types;
+    }
+    
+    private Point2I randomPointInRange(int maxX, int maxZ, List<Point2I> choosen) {
+        int x = ThreadLocalRandom.current().nextInt(maxX);
+        int z = ThreadLocalRandom.current().nextInt(maxZ);
+        Point2I p = new Point2I(x, z);
+        if (choosen.contains(p)) {
+            return randomPointInRange(maxX, maxZ, choosen);
+        } else {
+            choosen.add(p);
+            return p;
+        }
+    }
+    
+    private LineType generateType(TileType type, Difficulty difficulty, List<Point2I> choosen) {
+        Point2I start = randomPointInRange(difficulty.getXSize(), difficulty.getZSize(), choosen);
+        Point2I end = randomPointInRange(difficulty.getXSize(), difficulty.getZSize(), choosen);
+        return new LineType(type, start, end);
     }
 }

@@ -5,7 +5,7 @@ package org.devathon.contest2016.stuff;
  */
 public enum Difficulty {
     
-    EASY(5, 5), NORMAL(10, 10), HARD(20, 20);
+    EASY(5, 5), NORMAL(10, 10), HARD(15, 15);
     
     private int xSize;
     private int zSize;
