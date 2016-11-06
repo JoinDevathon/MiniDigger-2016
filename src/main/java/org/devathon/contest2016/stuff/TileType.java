@@ -9,11 +9,17 @@ import org.bukkit.inventory.ItemStack;
 public enum TileType {
     
     AIR(Material.AIR, (byte) 0, 0, 0, 0),
-    RED(Material.WOOL, (byte) 1, 1, 0, 0),
-    GREEN(Material.WOOL, (byte) 10, 0, 1, 0),
-    BLUE(Material.WOOL, (byte) 4, 0, 0, 1),
-    LILA(Material.WOOL, (byte) 5, 0.37109375f, 0, 0.60546875f),
-    PINK(Material.WOOL, (byte) 9, 0.953125f, 0, 1);
+    BLACK(Material.WOOL, (byte) 15, 25, 25, 25),
+    RED(Material.WOOL, (byte) 14, 153, 51, 51),
+    BROWN(Material.WOOL, (byte) 12, 102, 76, 51),
+    BLUE(Material.WOOL, (byte) 11, 51, 76, 178),
+    LILA(Material.WOOL, (byte) 10, 127, 63, 178),
+    CYAN(Material.WOOL, (byte) 9, 76, 127, 153),
+    GRAY(Material.WOOL, (byte) 8, 76, 76, 76),
+    PINK(Material.WOOL, (byte) 6, 242, 127, 165),
+    GREEN(Material.WOOL, (byte) 5, 127, 204, 25),
+    YELLOW(Material.WOOL, (byte) 4, 229, 229, 51),
+    ORANGE(Material.WOOL, (byte) 1, 216, 127, 51);
     
     private Material material;
     private byte data;
@@ -81,14 +87,14 @@ public enum TileType {
     }
     
     public float getRed() {
-        return red;
+        return red / 256f;
     }
     
     public float getGreen() {
-        return green;
+        return green / 256f;
     }
     
     public float getBlue() {
-        return blue;
+        return blue / 256f;
     }
 }
