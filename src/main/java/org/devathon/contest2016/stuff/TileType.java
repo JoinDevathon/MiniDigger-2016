@@ -11,7 +11,9 @@ public enum TileType {
     AIR(Material.AIR, (byte) 0),
     RED(Material.WOOL, (byte) 1),
     GREEN(Material.WOOL, (byte) 10),
-    BLUE(Material.WOOL, (byte) 4);
+    BLUE(Material.WOOL, (byte) 4),
+    LILA(Material.WOOL, (byte) 5),
+    PINK(Material.WOOL, (byte) 9);
     
     private Material material;
     private byte data;
