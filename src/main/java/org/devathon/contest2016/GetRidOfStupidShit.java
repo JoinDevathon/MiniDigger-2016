@@ -5,6 +5,7 @@ import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.weather.WeatherChangeEvent;
 
 /**
  * small class to get rid of annoying stuff
@@ -21,6 +22,11 @@ public class GetRidOfStupidShit implements Listener {
     
     @EventHandler
     public void food(FoodLevelChangeEvent e) {
+        e.setCancelled(true);
+    }
+    
+    @EventHandler
+    public void weather(WeatherChangeEvent e) {
         e.setCancelled(true);
     }
 }
