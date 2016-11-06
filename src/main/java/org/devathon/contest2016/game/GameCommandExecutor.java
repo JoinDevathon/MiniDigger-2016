@@ -109,7 +109,7 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                 }
                 
                 List<LineType> types = new ArrayList<>();
-                types.add(new LineType(TileType.ELECTIRCITY, new Point2I(0, 0), new Point2I(4, 4)));
+                types.add(new LineType(TileType.RED, new Point2I(0, 0), new Point2I(4, 4)));
                 Level level = new Level("DefaultLevel", difficulty, player.getLocation(), "DefaultLevel", types);
                 handler.startGame(player, level);
                 break;
@@ -123,7 +123,7 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
              * /game level
              */
             case "level":
-                Optional<Level> lvl = levelHandler.getLevel(args[1]);
+                Optional<Level> lvl = levelHandler.getLevel(args[1], player.getLocation().clone());
                 if (!lvl.isPresent()) {
                     player.spigot().sendMessage(handler.getPlugin().getPrefix().append("Unknown level ").color(RED).append(args[1]).color(DARK_RED).append("!").color(RED).create());
                     return true;

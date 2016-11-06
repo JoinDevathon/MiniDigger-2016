@@ -9,8 +9,9 @@ import org.bukkit.inventory.ItemStack;
 public enum TileType {
     
     AIR(Material.AIR, (byte) 0),
-    ELECTIRCITY(Material.SPONGE, (byte) 0),
-    WATER(Material.STATIONARY_WATER, (byte) 0);
+    RED(Material.WOOL, (byte) 1),
+    GREEN(Material.WOOL, (byte) 10),
+    BLUE(Material.WOOL, (byte) 4);
     
     private Material material;
     private byte data;

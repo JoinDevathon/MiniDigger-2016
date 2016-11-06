@@ -1,5 +1,6 @@
 package org.devathon.contest2016.level;
 
+import org.devathon.contest2016.structure.StructureUtil;
 import org.devathon.contest2016.stuff.Difficulty;
 import org.devathon.contest2016.stuff.Point2I;
 import org.devathon.contest2016.stuff.TileType;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
@@ -26,8 +29,32 @@ public class LevelHandler {
      * @param name the name of the level
      * @return the found level, if present
      */
-    public Optional<Level> getLevel(String name) {
-        return levels.stream().filter(level -> level.getName().equalsIgnoreCase(name)).findAny();
+    public Optional<Level> getLevel(String name, Location origin) {
+        Optional<Level> result = levels.stream().filter(level -> level.getName().equalsIgnoreCase(name)).findAny();
+        if (!result.isPresent() && origin != null) {
+            // load in level
+            StructureUtil.load(origin, name);
+            
+            // search for origin
+            for (int x = 0; x < 100; x++) {
+                for (int y = 0; y < 100; y++) {
+                    for (int z = 0; z < 100; z++) {
+                        Block block = origin.clone().add(x, y, z).getBlock();
+                        if (block.getType() == Material.STRUCTURE_BLOCK) {
+                            block.setType(Material.AIR);
+                            origin = block.getRelative(BlockFace.SOUTH).getLocation();
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // load data
+            loadLevel(origin);
+            result = levels.stream().filter(level -> level.getName().equalsIgnoreCase(name)).findAny();
+        }
+        
+        return result;
     }
     
     /**
@@ -37,6 +64,9 @@ public class LevelHandler {
      * @return the loaded level
      */
     public Level loadLevel(Location signLoc) {
+        if (!(signLoc.getBlock().getState() instanceof Sign)) {
+            return null;
+        }
         Sign levelSign = (Sign) signLoc.getBlock().getState();
         String name = levelSign.getLine(1);
         Difficulty difficulty = Difficulty.valueOf(levelSign.getLine(2));
@@ -53,6 +83,7 @@ public class LevelHandler {
         }
         
         Level level = new Level(name, difficulty, levelSign.getLocation().add(1, 0, 0), name, types);
+        level.setLoaded(true);
         levels.add(level);
         return level;
     }

@@ -42,7 +42,6 @@ public class Game {
      *
      * @param handler the gamehandler that handles this game
      * @param player  the player that is playing this game
-     * @param origin  the origin location of the level
      * @param level   the level to play
      */
     public Game(GameHandler handler, Player player, Level level) {
@@ -65,7 +64,7 @@ public class Game {
      * @param type the tile type to set
      */
     public void setTile(int x, int z, TileType type) {
-        System.out.printf("set " + x + ":" + z + " to " + type.name());
+        System.out.printf("set " + x + ":" + z + " to " + type.name() + "  " + xzToLocation(x, z));
         board.setTile(x, z, type);
         checkWin();
     }
@@ -134,14 +133,20 @@ public class Game {
      */
     public void resetBlocks() {
         // run one tick later so that last block still can get cleared out
-        new BukkitRunnable() {
+        BukkitRunnable runnable = new BukkitRunnable() {
             @Override
             public void run() {
                 Collections.reverse(blocksToReset);
                 blocksToReset.forEach(state -> state.update(true));
                 blocksToReset.clear();
             }
-        }.runTaskLater(handler.getPlugin(), 1);
+        };
+        // we can only run if the plugin is enabled
+        if (handler.getPlugin().isEnabled()) {
+            runnable.runTaskLater(handler.getPlugin(), 1);
+        } else {
+            runnable.run();
+        }
     }
     
     /**

@@ -1,8 +1,8 @@
 package org.devathon.contest2016.level;
 
 import org.devathon.contest2016.game.Game;
-import org.devathon.contest2016.stuff.Difficulty;
 import org.devathon.contest2016.structure.StructureUtil;
+import org.devathon.contest2016.stuff.Difficulty;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class Level {
     private Location loc;
     private String schematic;
     private List<LineType> types;
+    private boolean loaded;
     
     public Level(String name, Difficulty difficulty, Location loc, String schematic, List<LineType> types) {
         this.name = name;
@@ -26,6 +27,14 @@ public class Level {
         this.loc = loc;
         this.schematic = schematic;
         this.types = types;
+    }
+    
+    public boolean isLoaded() {
+        return loaded;
+    }
+    
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
     }
     
     public String getName() {
@@ -70,19 +79,30 @@ public class Level {
     
     public void load(Location origin, Game game) {
         // load in the schematic
-        StructureUtil.load(origin, schematic);
+        boolean loaded = false;
+        if (!isLoaded()) {
+            StructureUtil.load(origin, schematic);
+            setLoaded(true);
+            loaded = true;
+        }
         // rm structure block
         origin.getBlock().setType(Material.AIR);
-        // set start and end
         origin = origin.clone().add(1, 1, 1);
+        // need to add one extra because of the offset
+        if (!loaded) {
+            origin = origin.add(0, 1, 0);
+        }
+        // set start and end
         for (LineType type : types) {
             Location start = new Location(origin.getWorld(), origin.getBlockX() + type.getStart().getX(), origin.getBlockY(), origin.getBlockZ() + type.getStart().getZ());
             game.setTile(start, type.getType(), start.getBlock().getState());
             start.getBlock().setType(type.getType().getMaterial());
+            start.getBlock().setData(type.getType().getData());
             
             Location stop = new Location(origin.getWorld(), origin.getBlockX() + type.getStop().getX(), origin.getBlockY(), origin.getBlockZ() + type.getStop().getZ());
             game.setTile(stop, type.getType(), stop.getBlock().getState());
             stop.getBlock().setType(type.getType().getMaterial());
+            stop.getBlock().setData(type.getType().getData());
         }
     }
 }
