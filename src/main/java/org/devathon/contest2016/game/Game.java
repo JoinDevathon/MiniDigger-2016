@@ -17,9 +17,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import static net.md_5.bungee.api.ChatColor.*;
@@ -109,6 +112,19 @@ public class Game {
      */
     public void start() {
         player.spigot().sendMessage(handler.getPlugin().getPrefix().append("The game starts now!").color(ChatColor.GOLD).create());
+        // clear inventory
+        player.getInventory().clear();
+        // give items
+        for (LineType type : getLevel().getTypes()) {
+            ItemStack is = new ItemStack(type.getType().getMaterial());
+            is.setDurability(type.getType().getData());
+            player.getInventory().addItem(is);
+        }
+        player.getInventory().addItem(handler.getWrenchItem());
+        // creative
+        player.setGameMode(GameMode.CREATIVE);
+        // tp player
+        player.teleport(origin.clone().add(-1, 2, -1));
     }
     
     /**
@@ -116,6 +132,9 @@ public class Game {
      */
     public void abort() {
         resetBlocks();
+        // clear inventory
+        player.getInventory().clear();
+        // message
         player.spigot().sendMessage(handler.getPlugin().getPrefix().append("Your game was aborted!").color(ChatColor.RED).create());
     }
     
@@ -124,7 +143,11 @@ public class Game {
      */
     public void win() {
         resetBlocks();
-        player.spigot().sendMessage(handler.getPlugin().getPrefix().append("You won").color(ChatColor.GREEN).create());
+        // clear inventory
+        player.getInventory().clear();
+        // message
+        player.spigot().sendMessage(handler.getPlugin().getPrefix().append("You won, have a cookie!").color(ChatColor.GREEN).create());
+        player.getInventory().addItem(new ItemStack(Material.COOKIE));
         handler.remove(this);
     }
     
