@@ -85,6 +85,13 @@ public class Board {
         return directions[x][z];
     }
     
+    /**
+     * Checks if the player has won, aka if all start and end points are connected
+     *
+     * @param startPoints the start points
+     * @param endPoints   the end points
+     * @return if the game is finished
+     */
     public boolean checkWin(Map<TileType, Point2I> startPoints, Map<TileType, Point2I> endPoints) {
         boolean won = true;
         for (TileType key : startPoints.keySet()) {
@@ -107,7 +114,7 @@ public class Board {
                 loc.setY(loc.getY() + 1);
                 loc.add(0.5, 0.5, 0.5);
                 loc.getWorld().spigot().playEffect(loc, Effect.COLOURED_DUST, 0, 0, key.getRed(), key.getGreen(), key.getBlue(), 1, 0, 100);
-                  }
+            }
             
             if (!result) {
                 won = false;
@@ -117,6 +124,17 @@ public class Board {
         return won;
     }
     
+    /**
+     * Checks the flow of one tile type (recursively)
+     *
+     * @param tile    the tile type to check
+     * @param startX  the start (or current) x value
+     * @param startZ  the start (or current) z value
+     * @param stopX   the finish x value
+     * @param stopZ   the finish z value
+     * @param visited a list with all visited points
+     * @return if the flow could continue one tile
+     */
     public boolean checkFlow(TileType tile, int startX, int startZ, int stopX, int stopZ, List<Point2I> visited) {
         //check if we need the direction
         Map<Direction, Point2I> possibleRoutes = new HashMap<>();
@@ -232,7 +250,7 @@ public class Board {
         }
     }
     
-    public boolean isInBounds(int x, int z) {
+    private boolean isInBounds(int x, int z) {
         return x < board.length && z < board[0].length && x >= 0 && z >= 0;
     }
 }
