@@ -3,6 +3,7 @@ package org.devathon.contest2016;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 import org.bukkit.Bukkit;
 
@@ -11,7 +12,7 @@ import org.bukkit.Bukkit;
  */
 public class StructureHandler {
     
-    private static final String[] structures = {"DefaultLevel", "TestLevel"};
+    private static final String[] structures = {"DefaultLevel", "TestLevel", "Level1"};
     
     private DevathonPlugin plugin;
     
@@ -27,7 +28,7 @@ public class StructureHandler {
         file.mkdirs();
         for (String structure : structures) {
             try {
-                Files.copy(plugin.getResource(structure + ".nbt"), new File(file, structure + ".nbt").toPath());
+                Files.copy(plugin.getResource(structure + ".nbt"), new File(file, structure + ".nbt").toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 e.printStackTrace();
             }

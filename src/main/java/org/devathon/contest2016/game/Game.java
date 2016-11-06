@@ -45,14 +45,16 @@ public class Game {
      * @param origin  the origin location of the level
      * @param level   the level to play
      */
-    public Game(GameHandler handler, Player player, Location origin, Level level) {
+    public Game(GameHandler handler, Player player, Level level) {
         this.handler = handler;
         this.difficulty = level.getDifficulty();
         this.player = player;
         this.board = new Board(difficulty.getXSize(), difficulty.getZSize(), this);
         this.blocksToReset = new ArrayList<>();
-        this.origin = origin;
+        this.origin = level.getLoc().clone();
         this.level = level;
+        
+        level.load(origin.clone().subtract(1, 1, 1), this);
     }
     
     /**

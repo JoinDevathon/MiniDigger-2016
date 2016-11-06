@@ -10,6 +10,7 @@ import net.minecraft.server.v1_10_R1.BlockPosition;
 import org.devathon.contest2016.game.GameCommandExecutor;
 import org.devathon.contest2016.game.GameHandler;
 import org.devathon.contest2016.game.GameListener;
+import org.devathon.contest2016.level.LevelHandler;
 import org.devathon.contest2016.util.StructureUtil;
 
 import org.bukkit.command.Command;
@@ -23,14 +24,17 @@ public class DevathonPlugin extends JavaPlugin {
     
     private GameHandler gameHandler;
     private StructureHandler structureHandler;
+    private LevelHandler levelHandler;
     
     @Override
     public void onEnable() {
         structureHandler = new StructureHandler(this);
         structureHandler.load();
         
+        levelHandler = new LevelHandler();
+        
         gameHandler = new GameHandler(this);
-        getCommand("game").setExecutor(new GameCommandExecutor(gameHandler));
+        getCommand("game").setExecutor(new GameCommandExecutor(gameHandler, levelHandler));
         getServer().getPluginManager().registerEvents(new GameListener(gameHandler), this);
         
         getServer().getPluginManager().registerEvents(new GetRidOfStupidShit(), this);

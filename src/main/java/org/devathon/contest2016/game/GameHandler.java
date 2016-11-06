@@ -60,9 +60,10 @@ public class GameHandler implements Listener {
     public Game startGame(Player player, Level level) {
         if (getGame(player).isPresent()) {
             player.spigot().sendMessage(plugin.getPrefix().append("You can only be in one game at a time!").color(RED).create());
+            return null;
         }
         
-        Game game = new Game(this, player, player.getLocation(), level); //TODO change origin location
+        Game game = new Game(this, player, level); //TODO change origin location
         games.add(game);
         game.start();
         return game;
