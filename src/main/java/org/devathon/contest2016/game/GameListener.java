@@ -1,5 +1,6 @@
 package org.devathon.contest2016.game;
 
+import org.devathon.contest2016.level.LineType;
 import org.devathon.contest2016.stuff.Point2I;
 import org.devathon.contest2016.stuff.TileType;
 
@@ -49,6 +50,11 @@ public class GameListener implements Listener {
         Optional<Game> game = gameHandler.getGame(event.getPlayer());
         if (game.isPresent()) {
             if (isLocationOnBoard(event.getBlock().getLocation(), game.get())) {
+                if (isLocationStartOrStop(event.getBlock().getLocation(), game.get())) {
+                    // can't break start or stop!
+                    event.setCancelled(true);
+                    return;
+                }
                 TileType type = TileType.from(event.getBlock().getType(), event.getBlock().getData());
                 if (type != null) {
                     game.get().setTile(event.getBlock().getLocation(), TileType.AIR, null);
@@ -92,5 +98,16 @@ public class GameListener implements Listener {
     private boolean isLocationOnBoard(Location loc, Game game) {
         Point2I point2I = game.locationToXZ(loc);
         return point2I.getX() < game.getDifficulty().getXSize() && point2I.getZ() < game.getDifficulty().getZSize() && point2I.getX() >= 0 && point2I.getZ() >= 0;
+    }
+    
+    
+    private boolean isLocationStartOrStop(Location location, Game game) {
+        Point2I point2I = game.locationToXZ(location);
+        for (LineType type : game.getLevel().getTypes()) {
+            if (type.getStart().equals(point2I) || type.getStop().equals(point2I)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
