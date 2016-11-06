@@ -26,6 +26,10 @@ When playing a random game, it will randomly generate start and end points, so n
 But don't give up easily! Try multiple ways to solve the puzzle. If you still don't think that you can finish it, 
 do ```/game abort``` to abort the game.
 
+# Scores
+What would be a game without a way to compare yourself to other players? Right, pretty boring.  
+Thats why you can show your score or the score of other players using ```/score``` or ```/score <playername>```
+
 # How does it all work?
 You maybe are wondering how I am able to save all the structures. Since we are not allowed to use worldedit 
 or stuff like that, I wrote my own schematic system. Well, I just ripped it out of vanilla.  
@@ -44,7 +48,8 @@ A random normal level ![http://i.minidigger.me/2016/11/javaw_06_13-21-19.png](ht
 A random hard level ![http://i.minidigger.me/2016/11/javaw_06_13-22-10.png](http://i.minidigger.me/2016/11/javaw_06_13-22-10.png)
 
 # Video
-Showing how to play a easy game ![http://i.minidigger.me/2016/11/2016-11-06_13-23-07.gif](http://i.minidigger.me/2016/11/2016-11-06_13-23-07.gif)
+Showing how to play a easy game ![http://i.minidigger.me/2016/11/2016-11-06_13-23-07.gif](http://i.minidigger.me/2016/11/2016-11-06_13-23-07.gif)  
+Github doesn't like my gif... have a link instead http://i.minidigger.me/2016/11/2016-11-06_13-23-07.gif
 
 # How do I create new levels?
 
