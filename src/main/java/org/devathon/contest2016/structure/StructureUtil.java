@@ -1,4 +1,4 @@
-package org.devathon.contest2016.util;
+package org.devathon.contest2016.structure;
 
 import net.minecraft.server.v1_10_R1.Block;
 import net.minecraft.server.v1_10_R1.BlockPosition;

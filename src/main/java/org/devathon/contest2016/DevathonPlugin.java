@@ -11,7 +11,8 @@ import org.devathon.contest2016.game.GameCommandExecutor;
 import org.devathon.contest2016.game.GameHandler;
 import org.devathon.contest2016.game.GameListener;
 import org.devathon.contest2016.level.LevelHandler;
-import org.devathon.contest2016.util.StructureUtil;
+import org.devathon.contest2016.structure.StructureHandler;
+import org.devathon.contest2016.structure.StructureUtil;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

@@ -2,7 +2,7 @@ package org.devathon.contest2016.level;
 
 import org.devathon.contest2016.game.Game;
 import org.devathon.contest2016.stuff.Difficulty;
-import org.devathon.contest2016.util.StructureUtil;
+import org.devathon.contest2016.structure.StructureUtil;
 
 import java.util.List;
 

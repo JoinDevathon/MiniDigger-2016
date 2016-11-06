@@ -1,4 +1,6 @@
-package org.devathon.contest2016;
+package org.devathon.contest2016.structure;
+
+import org.devathon.contest2016.DevathonPlugin;
 
 import java.io.File;
 import java.io.IOException;
