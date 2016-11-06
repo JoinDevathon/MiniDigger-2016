@@ -11,6 +11,8 @@ import org.devathon.contest2016.game.GameCommandExecutor;
 import org.devathon.contest2016.game.GameHandler;
 import org.devathon.contest2016.game.GameListener;
 import org.devathon.contest2016.level.LevelHandler;
+import org.devathon.contest2016.score.ScoreCommand;
+import org.devathon.contest2016.score.ScoreHandler;
 import org.devathon.contest2016.structure.StructureHandler;
 import org.devathon.contest2016.structure.StructureUtil;
 
@@ -26,9 +28,13 @@ public class DevathonPlugin extends JavaPlugin {
     private GameHandler gameHandler;
     private StructureHandler structureHandler;
     private LevelHandler levelHandler;
+    private ScoreHandler scoreHandler;
     
     @Override
     public void onEnable() {
+        scoreHandler = new ScoreHandler(this);
+        getCommand("score").setExecutor(new ScoreCommand(this));
+        
         structureHandler = new StructureHandler(this);
         structureHandler.load();
         
@@ -67,6 +73,10 @@ public class DevathonPlugin extends JavaPlugin {
         return new ComponentBuilder("[").color(ChatColor.BLUE).append("MachineGame").color(RED)
                 .event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent("Made by MiniDigger for Devathon 2016!")}))
                 .append("] ").color(BLUE);
+    }
+    
+    public ScoreHandler getScoreHandler() {
+        return scoreHandler;
     }
 }
 

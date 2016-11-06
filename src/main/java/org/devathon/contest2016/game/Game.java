@@ -39,6 +39,7 @@ public class Game {
     private List<BlockState> blocksToReset;
     private Level level;
     private Location origin;
+    private boolean isRandom;
     
     /**
      * Inits this game
@@ -47,7 +48,7 @@ public class Game {
      * @param player  the player that is playing this game
      * @param level   the level to play
      */
-    public Game(GameHandler handler, Player player, Level level) {
+    public Game(GameHandler handler, Player player, Level level, boolean isRandom) {
         this.handler = handler;
         this.difficulty = level.getDifficulty();
         this.player = player;
@@ -55,6 +56,7 @@ public class Game {
         this.blocksToReset = new ArrayList<>();
         this.origin = level.getLoc().clone();
         this.level = level;
+        this.isRandom = isRandom;
         
         // handle offset
         if (!level.load(origin.clone().subtract(1, 1, 1), this)) {
@@ -128,6 +130,8 @@ public class Game {
         player.setGameMode(GameMode.CREATIVE);
         // tp player
         player.teleport(origin.clone().add(-1, 2, -1));
+        
+        handler.getPlugin().getScoreHandler().addScore(difficulty, player, isRandom, true);
     }
     
     /**
@@ -152,6 +156,7 @@ public class Game {
         player.spigot().sendMessage(handler.getPlugin().getPrefix().append("You won, have a cookie!").color(ChatColor.GREEN).create());
         player.getInventory().addItem(new ItemStack(Material.COOKIE));
         handler.remove(this);
+        handler.getPlugin().getScoreHandler().addScore(difficulty, player, isRandom, false);
     }
     
     /**

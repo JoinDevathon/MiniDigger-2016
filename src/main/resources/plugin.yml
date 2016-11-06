@@ -8,4 +8,5 @@ main: org.devathon.contest2016.DevathonPlugin
 commands:
     game:
     test:
+    score:
 

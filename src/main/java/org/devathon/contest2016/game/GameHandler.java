@@ -53,17 +53,18 @@ public class GameHandler implements Listener {
     /**
      * Starts a new game
      *
-     * @param player the player that wants to play
-     * @param level  the level to play
+     * @param player   the player that wants to play
+     * @param level    the level to play
+     * @param isRandom if the game is a random one or based on a preset
      * @return the new game
      */
-    public Game startGame(Player player, Level level) {
+    public Game startGame(Player player, Level level, boolean isRandom) {
         if (getGame(player).isPresent()) {
             player.spigot().sendMessage(plugin.getPrefix().append("You can only be in one game at a time!").color(RED).create());
             return null;
         }
         
-        Game game = new Game(this, player, level); //TODO change origin location
+        Game game = new Game(this, player, level, isRandom); //TODO change origin location
         games.add(game);
         game.start();
         return game;

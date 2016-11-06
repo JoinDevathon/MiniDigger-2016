@@ -115,7 +115,7 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                     return true;
                 }
                 level.get().setTypes(generateRandomType(difficulty));
-                handler.startGame(player, level.get());
+                handler.startGame(player, level.get(), true);
                 break;
             /*
              * /game abort
@@ -132,7 +132,7 @@ public class GameCommandExecutor implements TabCompleter, CommandExecutor {
                     player.spigot().sendMessage(handler.getPlugin().getPrefix().append("Unknown level ").color(RED).append(args[1]).color(DARK_RED).append("!").color(RED).create());
                     return true;
                 }
-                handler.startGame(player, lvl.get());
+                handler.startGame(player, lvl.get(), false);
                 break;
             /*
              * /game <unknown>
