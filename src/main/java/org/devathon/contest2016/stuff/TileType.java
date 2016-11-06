@@ -8,19 +8,25 @@ import org.bukkit.inventory.ItemStack;
  */
 public enum TileType {
     
-    AIR(Material.AIR, (byte) 0),
-    RED(Material.WOOL, (byte) 1),
-    GREEN(Material.WOOL, (byte) 10),
-    BLUE(Material.WOOL, (byte) 4),
-    LILA(Material.WOOL, (byte) 5),
-    PINK(Material.WOOL, (byte) 9);
+    AIR(Material.AIR, (byte) 0, 0, 0, 0),
+    RED(Material.WOOL, (byte) 1, 1, 0, 0),
+    GREEN(Material.WOOL, (byte) 10, 0, 1, 0),
+    BLUE(Material.WOOL, (byte) 4, 0, 0, 1),
+    LILA(Material.WOOL, (byte) 5, 0.37109375f, 0, 0.60546875f),
+    PINK(Material.WOOL, (byte) 9, 0.953125f, 0, 1);
     
     private Material material;
     private byte data;
+    private float red;
+    private float green;
+    private float blue;
     
-    TileType(Material material, byte data) {
+    TileType(Material material, byte data, float red, float green, float blue) {
         this.material = material;
         this.data = data;
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
     }
     
     /**
@@ -72,5 +78,17 @@ public enum TileType {
         }
         
         return null;
+    }
+    
+    public float getRed() {
+        return red;
+    }
+    
+    public float getGreen() {
+        return green;
+    }
+    
+    public float getBlue() {
+        return blue;
     }
 }

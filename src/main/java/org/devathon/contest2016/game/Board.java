@@ -106,8 +106,8 @@ public class Board {
                 Location loc = game.xzToLocation(point.getX(), point.getZ());
                 loc.setY(loc.getY() + 1);
                 loc.add(0.5, 0.5, 0.5);
-                loc.getWorld().spigot().playEffect(loc, Effect.HEART);//TODO do effect based on TileType
-            }
+                loc.getWorld().spigot().playEffect(loc, Effect.COLOURED_DUST, 0, 0, key.getRed(), key.getGreen(), key.getBlue(), 1, 0, 100);
+                  }
             
             if (!result) {
                 won = false;
