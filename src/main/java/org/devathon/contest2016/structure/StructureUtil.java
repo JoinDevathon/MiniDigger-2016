@@ -30,13 +30,14 @@ public class StructureUtil {
      * @param author the author
      * @return idk, ask nms...
      */
-    public static boolean save(Location start, BlockPosition size, String name, String author) {
+    public static boolean save(Location start, Vector size, String name, String author) {
         BlockPosition startPos = new BlockPosition(start.getBlockX(), start.getBlockY(), start.getBlockZ());
+        BlockPosition sizePos = new BlockPosition(size.getX(),size.getY(),size.getZ());
         WorldServer world = ((CraftWorld) start.getWorld()).getHandle();
         MinecraftServer server = world.getMinecraftServer();
         DefinedStructureManager structureManager = world.y();
         DefinedStructure structure = structureManager.a(server, new MinecraftKey(name));
-        structure.a(world, startPos, size, true, Blocks.dj); // false -> do not includ entities, dj -> stucture void
+        structure.a(world, startPos, sizePos, true, Blocks.dj); // false -> do not includ entities, dj -> stucture void
         structure.a(author); // set author
         return structureManager.d(server, new MinecraftKey(name));
     }
